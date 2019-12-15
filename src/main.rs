@@ -24,13 +24,13 @@ fn main() -> Fallible<()> {
         None,
         true,
     )?;
-    fs::write("hpp.jpg", &hpp)?;
+    fs::write("./screenshots/hpp.jpg", &hpp)?;
 
     let twitter = tab
         .navigate_to("https://twitter.com/home?lang=ja")?
         .wait_until_navigated()?
         .capture_screenshot(ScreenshotFormat::JPEG(Some(75)), None, true)?;
-    fs::write("twitter.jpg", &twitter)?;
+    fs::write("./screenshots/twitter.jpg", &twitter)?;
 
     println!("Screenshots successfully created.");
     Ok(())
