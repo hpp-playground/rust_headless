@@ -1,0 +1,11 @@
+[package]
+name = "rust-headless"
+version = "0.1.0"
+authors = ["hppRC <hpp.ricecake@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+headless_chrome = "0.9.0"
+failure = "0.1.6"
