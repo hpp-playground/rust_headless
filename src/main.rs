@@ -4,8 +4,6 @@ use std::{env, fs, thread, time};
 use headless_chrome::{protocol::page::ScreenshotFormat, Browser, LaunchOptionsBuilder};
 
 fn main() -> Fallible<()> {
-    let five_seconds = time::Duration::new(5, 0);
-
     let options = LaunchOptionsBuilder::default()
         .headless(false)
         .build()
@@ -27,6 +25,7 @@ fn main() -> Fallible<()> {
         .wait_for_element("button.submit.EdgeButton.EdgeButton--primary.EdgeButtom--medium")?
         .click()?;
 
+    let five_seconds = time::Duration::new(5, 0);
     thread::sleep(five_seconds);
 
     let timeline = tab.capture_screenshot(ScreenshotFormat::JPEG(Some(75)), None, true)?;
