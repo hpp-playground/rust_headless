@@ -15,7 +15,7 @@ fn main() -> Fallible<()> {
     let browser = Browser::new(options)?;
     let tab = browser.wait_for_initial_tab()?;
 
-    let username = "osaremochi";
+    let username = "hpp.ricecake@gmail.com";
     let password = &env::var("TWITTER_PASSWORD")?;
 
     tab.navigate_to("https://twitter.com/home?lang=ja")?
@@ -35,7 +35,7 @@ fn main() -> Fallible<()> {
 
     tab.wait_for_element("#react-root > div > div > div > header > div > div > div > div > div > nav > a:nth-child(2)")?.click()?;
     tab.wait_for_element("#react-root > div > div > div > main > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > form > div > div > div > div > input")?.click()?;
-    tab.type_str("from:osaremochi since:2018-8-1 until:2018-12-31")?;
+    tab.type_str("from:osaremochi since:2019-9-22 until:2019-9-23")?;
     tab.press_key("Enter")?;
 
     thread::sleep(seconds);
