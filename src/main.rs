@@ -1,11 +1,15 @@
 use failure::Fallible;
-use std::{env, fs, thread, time};
+use std::{env, thread, time};
 
-use headless_chrome::{protocol::page::ScreenshotFormat, Browser, LaunchOptionsBuilder};
+use headless_chrome::{Browser, LaunchOptionsBuilder};
 
 fn main() -> Fallible<()> {
+    let timeout = time::Duration::new(1000, 0);
+    let seconds = time::Duration::new(1, 0);
+
     let options = LaunchOptionsBuilder::default()
         .headless(false)
+        .idle_browser_timeout(timeout)
         .build()
         .expect("Couldn't find appropriate Chrome binary.");
     let browser = Browser::new(options)?;
@@ -18,27 +22,36 @@ fn main() -> Fallible<()> {
         .wait_until_navigated()?
         .wait_for_element(".js-username-field.email-input.js-initial-focus")?
         .click()?;
+    thread::sleep(seconds);
+
     tab.type_str(username)?
         .wait_for_element(".js-password-field")?
         .click()?;
+    thread::sleep(seconds);
+
     tab.type_str(password)?
         .wait_for_element("button.submit.EdgeButton.EdgeButton--primary.EdgeButtom--medium")?
         .click()?;
 
-    let five_seconds = time::Duration::new(5, 0);
-    thread::sleep(five_seconds);
-
     tab.wait_for_element("#react-root > div > div > div > header > div > div > div > div > div > nav > a:nth-child(2)")?.click()?;
     tab.wait_for_element("#react-root > div > div > div > main > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > form > div > div > div > div > input")?.click()?;
-    tab.type_str("うんち")?;
+    tab.type_str("from:osaremochi since:2018-8-1 until:2018-12-31")?;
     tab.press_key("Enter")?;
 
-    thread::sleep(five_seconds);
+    thread::sleep(seconds);
+    tab.wait_for_element("div[role='tablist'] > div:nth-child(3)")?
+        .click()?;
+    thread::sleep(seconds);
 
-    let timeline = tab.capture_screenshot(ScreenshotFormat::JPEG(Some(75)), None, true)?;
-    fs::write("./screenshots/timeline.jpg", &timeline)?;
-
-    println!("Screenshots successfully created.");
-    Ok(())
+    loop {
+        thread::sleep(seconds);
+        tab.wait_for_element("div[aria-label='もっと見る']")?
+            .click()?;
+        thread::sleep(seconds);
+        tab.wait_for_element("div[role='menu'] > div > div > div > div:nth-child(1)")?
+            .click()?;
+        thread::sleep(seconds);
+        tab.wait_for_element("div[data-testid='confirmationSheetConfirm']")?
+            .click()?;
+    }
 }
-//from:osaremochi since:2018-10-1 until:2019-1-31
