@@ -6,6 +6,7 @@ use headless_chrome::{Browser, LaunchOptionsBuilder};
 fn main() -> Fallible<()> {
     let timeout = time::Duration::new(1000, 0);
     let seconds = time::Duration::new(1, 0);
+    let longtime = time::Duration::new(10, 0);
 
     let options = LaunchOptionsBuilder::default()
         .headless(false)
@@ -22,12 +23,10 @@ fn main() -> Fallible<()> {
         .wait_until_navigated()?
         .wait_for_element(".js-username-field.email-input.js-initial-focus")?
         .click()?;
-    thread::sleep(seconds);
 
     tab.type_str(username)?
         .wait_for_element(".js-password-field")?
         .click()?;
-    thread::sleep(seconds);
 
     tab.type_str(password)?
         .wait_for_element("button.submit.EdgeButton.EdgeButton--primary.EdgeButtom--medium")?
@@ -35,7 +34,7 @@ fn main() -> Fallible<()> {
 
     tab.wait_for_element("#react-root > div > div > div > header > div > div > div > div > div > nav > a:nth-child(2)")?.click()?;
     tab.wait_for_element("#react-root > div > div > div > main > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > form > div > div > div > div > input")?.click()?;
-    tab.type_str("from:osaremochi since:2019-9-22 until:2019-9-23")?;
+    tab.type_str("from:osaremochi since:2018-12-20 until:2019-1-10")?;
     tab.press_key("Enter")?;
 
     thread::sleep(seconds);
