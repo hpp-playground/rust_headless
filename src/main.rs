@@ -28,9 +28,17 @@ fn main() -> Fallible<()> {
     let five_seconds = time::Duration::new(5, 0);
     thread::sleep(five_seconds);
 
+    tab.wait_for_element("#react-root > div > div > div > header > div > div > div > div > div > nav > a:nth-child(2)")?.click()?;
+    tab.wait_for_element("#react-root > div > div > div > main > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > form > div > div > div > div > input")?.click()?;
+    tab.type_str("うんち")?;
+    tab.press_key("Enter")?;
+
+    thread::sleep(five_seconds);
+
     let timeline = tab.capture_screenshot(ScreenshotFormat::JPEG(Some(75)), None, true)?;
     fs::write("./screenshots/timeline.jpg", &timeline)?;
 
     println!("Screenshots successfully created.");
     Ok(())
 }
+//from:osaremochi since:2018-10-1 until:2019-1-31
