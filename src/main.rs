@@ -1,12 +1,12 @@
 use failure::Fallible;
-use std::{env, thread, time};
+use std::{env, io, thread, time};
 
 use headless_chrome::{Browser, LaunchOptionsBuilder};
 
 fn main() -> Fallible<()> {
     let timeout = time::Duration::new(1000, 0);
     let seconds = time::Duration::new(1, 0);
-    let longtime = time::Duration::new(10, 0);
+    let longtime = time::Duration::new(3, 0);
 
     let options = LaunchOptionsBuilder::default()
         .headless(false)
@@ -34,7 +34,7 @@ fn main() -> Fallible<()> {
 
     tab.wait_for_element("#react-root > div > div > div > header > div > div > div > div > div > nav > a:nth-child(2)")?.click()?;
     tab.wait_for_element("#react-root > div > div > div > main > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > div > form > div > div > div > div > input")?.click()?;
-    tab.type_str("from:osaremochi since:2018-12-20 until:2019-1-10")?;
+    tab.type_str("from:osaremochi since:2018-10-1 until:2019-2-31")?;
     tab.press_key("Enter")?;
 
     thread::sleep(seconds);
@@ -43,13 +43,12 @@ fn main() -> Fallible<()> {
     thread::sleep(seconds);
 
     loop {
-        thread::sleep(seconds);
+        let mut s = String::new();
+        io::stdin().read_line(&mut s);
         tab.wait_for_element("div[aria-label='もっと見る']")?
             .click()?;
-        thread::sleep(seconds);
         tab.wait_for_element("div[role='menu'] > div > div > div > div:nth-child(1)")?
             .click()?;
-        thread::sleep(seconds);
         tab.wait_for_element("div[data-testid='confirmationSheetConfirm']")?
             .click()?;
     }
